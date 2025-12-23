@@ -20,13 +20,13 @@ const RectNode = ({ data, selected }: NodeProps<CustomNode>) => {
         >
             <Handle
                 type="target"
-                position={Position.Top}
+                position={Position.Right}
                 className="w-2 h-2 bg-blue-400!"
             />
             <span className="text-xs font-bold">{data.label || '矩形节点'}</span>
             <Handle
                 type="source"
-                position={Position.Bottom}
+                position={Position.Left}
                 className="w-2 h-2 bg-blue-400!"
             />
         </div>

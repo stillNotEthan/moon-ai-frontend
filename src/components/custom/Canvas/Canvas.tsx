@@ -4,6 +4,7 @@ import React, { useCallback, DragEvent, useState, useMemo } from 'react';
 import { ReactFlow, 
     addEdge,
     Background,
+    BackgroundVariant,
     Connection,
     Controls,
     Edge,
@@ -98,9 +99,9 @@ const Canvas = ({
                     panOnDrag={true}
                     elementsSelectable={true}
                 >
+                    <Background variant={BackgroundVariant.Dots} color="#e5e5e5" gap={15} size={1} />
+                    <Controls />
                 </ReactFlow>
-                <Background color="#aaa" gap={20} />
-                <Controls />
             </div>
         </ReactFlowProvider>
     )

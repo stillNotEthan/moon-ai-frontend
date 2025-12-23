@@ -19,6 +19,13 @@ import AttributesPanel from '@/components/custom/Panel/Panel';
 import { rectConfig } from '@/components/nodes/RectNode/config';
 import { circleConfig } from '@/components/nodes/CircleNode/config';
 import { imageConfig } from '@/components/nodes/ImageNode/config';
+import { NodeConfig } from '@/components/custom/Panel/types';
+
+const nodeConfigs: Record<string, NodeConfig> = {
+  rect: rectConfig,
+  circle: circleConfig,
+  image: imageConfig,
+};
 
 export default function Home() {
 // ...
@@ -105,6 +112,7 @@ export default function Home() {
       <Sidebar
         onAddNode={onAddNode}
         onExport={onExport}
+        nodeCount={nodes.length}
       />
       <div className="flex-1 relative">
         <Canvas 
@@ -128,25 +136,23 @@ export default function Home() {
       <AttributesPanel 
         node={selectedNode} 
         onUpdate={(updatedData) => {
+          console.log('[Page] onUpdate received:', updatedData);
           setSelectedNode(updatedData);
           setNodes((nds) => 
             nds.map((node) => {
               if (node.id === updatedData.id) {
-                return {
-                  ...node,
-                  position: {
-                    x: updatedData.x,
-                    y: updatedData.y,
-                  },
-                  data: {
-                    ...node.data,
-                    label: updatedData.label,
-                    width: updatedData.width,
-                    height: updatedData.height,
-                    color: updatedData.color,
-                    imageUrl: updatedData.imageUrl,
-                  }
-                };
+                const config = nodeConfigs[node.type || 'rect'];
+                console.log('[Page] Processing node:', node.id, 'Type:', node.type, 'Config:', !!config);
+                
+                if (config?.onNodeUpdate) {
+                  const newNode = config.onNodeUpdate(node, updatedData);
+                  console.log('[Page] Node updated via config:', newNode);
+                  return newNode;
+                } else {
+                   // Fallback for types without specific update logic
+                   console.warn('[Page] No update logic for type:', node.type);
+                   return node;
+                }
               }
               return node;
             })

@@ -16,7 +16,7 @@ const ImageNode = ({ data, selected }: NodeProps<CustomNode>) => {
         >
             <Handle
                 type="target"
-                position={Position.Top}
+                position={Position.Right}
             />
             {
                 data.imageUrl ? (
@@ -31,7 +31,7 @@ const ImageNode = ({ data, selected }: NodeProps<CustomNode>) => {
             }
             <Handle
                 type="source"
-                position={Position.Bottom}
+                position={Position.Left}
             />
         </div>
     )

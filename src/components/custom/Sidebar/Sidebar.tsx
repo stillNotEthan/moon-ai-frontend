@@ -9,11 +9,12 @@ import {
 interface NodeSidebarProps {
     onAddNode: (type: 'rect' | 'circle' | 'image', data?: any) => void;
     onExport: () => void;
+    nodeCount: number;
 }
 
 const acceptImageTypes = ['.jpg', '.jpeg', '.png']
 
-const NodeSidebar = ({ onAddNode, onExport }: NodeSidebarProps) => {
+const NodeSidebar = ({ onAddNode, onExport, nodeCount }: NodeSidebarProps) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const onDragStart = (event: DragEvent, nodeType: string) => {
@@ -23,7 +24,7 @@ const NodeSidebar = ({ onAddNode, onExport }: NodeSidebarProps) => {
 
     return (
         <div className="flex flex-col gap-3 p-2 w-16 border-r h-full items-center justify-center z-50 relative bg-transparent">
-            <div>3 个</div>
+            <div>{nodeCount} 个</div>
             <div
                 draggable
                 className="p-1 hover:bg-slate-100 rounded cursor-pointer"

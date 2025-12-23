@@ -62,9 +62,27 @@ const AttributesPanel = ({
         mode: "onChange",
     });
 
+    // 监听表单值变化，实时更新
     useEffect(() => {
-        form.handleSubmit((data) => onUpdate(data as NodeData));
-    }, [form, onUpdate]);
+        const subscription = form.watch((formData) => {
+            if (node && formData) {
+                // 确保所有必需字段都有值
+                const updatedData = {
+                    id: formData.id as string,
+                    type: formData.type as string,
+                    label: formData.label as string,
+                    x: Number(formData.x),
+                    y: Number(formData.y),
+                    width: Number(formData.width),
+                    height: Number(formData.height),
+                    color: formData.color as string,
+                    imageUrl: formData.imageUrl as string,
+                };
+                onUpdate(updatedData);
+            }
+        });
+        return () => subscription.unsubscribe();
+    }, [form, node, onUpdate]);
 
     if (!node) {
         return (
