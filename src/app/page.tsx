@@ -40,16 +40,24 @@ export default function Home() {
         const updatedNodes = applyNodeChanges(changes, nds);
 
         if (selectedNode) {
-          const positionChange = changes.find(
-            (change) => change.type === 'position' && change.id === selectedNode.id && change.position
+          const nodeRemoved = changes.some(
+            (change) => change.type === 'remove' && change.id === selectedNode.id
           );
 
-          if (positionChange && positionChange.type === 'position' && positionChange.position) {
-            setSelectedNode((prev: any) => ({
-              ...prev,
-              x: positionChange.position!.x,
-              y: positionChange.position!.y,
-            }));
+          if (nodeRemoved) {
+            setSelectedNode(null);
+          } else {
+            const positionChange = changes.find(
+              (change) => change.type === 'position' && change.id === selectedNode.id && change.position
+            );
+
+            if (positionChange && positionChange.type === 'position' && positionChange.position) {
+              setSelectedNode((prev: any) => ({
+                ...prev,
+                x: positionChange.position!.x,
+                y: positionChange.position!.y,
+              }));
+            }
           }
         }
 

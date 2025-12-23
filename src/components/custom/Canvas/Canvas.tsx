@@ -13,7 +13,8 @@ import {
     OnEdgesChange,
     ReactFlowProvider,
     NodeTypes,
-    ReactFlowInstance
+    ReactFlowInstance,
+    MiniMap
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 
@@ -99,6 +100,7 @@ const Canvas = ({
                 >
                     <Background variant={BackgroundVariant.Dots} color="#e5e5e5" gap={15} size={1} />
                     <Controls position="bottom-right" />
+                    <MiniMap position="bottom-left" />
                 </ReactFlow>
             </div>
         </ReactFlowProvider>
