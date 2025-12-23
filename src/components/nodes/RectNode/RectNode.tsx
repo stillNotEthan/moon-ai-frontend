@@ -8,7 +8,7 @@ import { CustomNode } from '../../custom/Canvas/types';
 const RectNode = ({ data, selected }: NodeProps<CustomNode>) => {
     return (
         <div
-            className={`px-4 py-2 shadow-md bg-white border-2 ${selected ? 'border-blue-500' : 'border-gray-200'}`}
+            className={`px-4 py-2 shadow-md rounded-md bg-white border-2 ${selected ? 'border-blue-500' : 'border-gray-200'}`}
             style={{
                 width: data.width,
                 height: data.height,

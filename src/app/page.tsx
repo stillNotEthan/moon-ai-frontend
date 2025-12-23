@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { 
-  OnConnect, 
-  addEdge, 
-  Node, 
+import {
+  OnConnect,
+  addEdge,
+  Node,
   NodeChange,
   EdgeChange,
   applyNodeChanges,
@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Canvas from '@/components/custom/Canvas/Canvas';
 import Sidebar from '@/components/custom/Sidebar/Sidebar';
 import AttributesPanel from '@/components/custom/Panel/Panel';
-
+import JsonPanel from '@/components/custom/Json-panel/JsonPanel';
 import { rectConfig } from '@/components/nodes/RectNode/config';
 import { circleConfig } from '@/components/nodes/CircleNode/config';
 import { imageConfig } from '@/components/nodes/ImageNode/config';
@@ -28,17 +28,35 @@ const nodeConfigs: Record<string, NodeConfig> = {
 };
 
 export default function Home() {
-// ...
+  // ...
   const [nodes, setNodes] = useState<Node[]>([]);
   const [edges, setEdges] = useState<Edge[]>([]);
   const [selectedNode, setSelectedNode] = useState<any>(null);
+  const [showJsonPanel, setShowJsonPanel] = useState(false);
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
-      console.log('Nodes changed:', changes);
-      setNodes((nds) => applyNodeChanges(changes, nds));
+      setNodes((nds) => {
+        const updatedNodes = applyNodeChanges(changes, nds);
+
+        if (selectedNode) {
+          const positionChange = changes.find(
+            (change) => change.type === 'position' && change.id === selectedNode.id && change.position
+          );
+
+          if (positionChange && positionChange.type === 'position' && positionChange.position) {
+            setSelectedNode((prev: any) => ({
+              ...prev,
+              x: positionChange.position!.x,
+              y: positionChange.position!.y,
+            }));
+          }
+        }
+
+        return updatedNodes;
+      });
     },
-    [],
+    [selectedNode],
   );
 
   const onEdgesChange = useCallback(
@@ -109,13 +127,18 @@ export default function Home() {
 
   return (
     <div className="h-screen w-screen flex overflow-hidden">
-      <Sidebar
-        onAddNode={onAddNode}
-        onExport={onExport}
-        nodeCount={nodes.length}
-      />
+      <div className="fixed inset-0 z-60 flex items-center justify-start pointer-events-none">
+        <div className="w-16 ml-3 pointer-events-auto">
+          <Sidebar
+            onAddNode={onAddNode}
+            onExport={onExport}
+            nodeCount={nodes.length}
+            setShowJsonPanel={setShowJsonPanel}
+          />
+        </div>
+      </div>
       <div className="flex-1 relative">
-        <Canvas 
+        <Canvas
           nodes={nodes}
           edges={edges}
           onNodesChange={onNodesChange}
@@ -129,36 +152,49 @@ export default function Home() {
               y: node.position.y,
               ...node.data
             });
-          }} 
+          }}
           onAddNode={onAddNodeFromDrop}
         />
       </div>
-      <AttributesPanel 
-        node={selectedNode} 
-        onUpdate={(updatedData) => {
-          console.log('[Page] onUpdate received:', updatedData);
-          setSelectedNode(updatedData);
-          setNodes((nds) => 
-            nds.map((node) => {
-              if (node.id === updatedData.id) {
-                const config = nodeConfigs[node.type || 'rect'];
-                console.log('[Page] Processing node:', node.id, 'Type:', node.type, 'Config:', !!config);
-                
-                if (config?.onNodeUpdate) {
-                  const newNode = config.onNodeUpdate(node, updatedData);
-                  console.log('[Page] Node updated via config:', newNode);
-                  return newNode;
-                } else {
-                   // Fallback for types without specific update logic
-                   console.warn('[Page] No update logic for type:', node.type);
-                   return node;
-                }
-              }
-              return node;
-            })
-          );
-        }} 
-      />
+      {selectedNode && (
+        <div className="fixed inset-0 z-50 flex items-center justify-end pointer-events-none">
+          <div className="pointer-events-auto animate-in slide-in-from-right duration-300">
+            <div className="bg-white rounded-lg shadow-2xl w-80 max-h-[calc(100vh-6rem)] mr-5">
+              <AttributesPanel
+                node={selectedNode}
+                onUpdate={(updatedData) => {
+                  setSelectedNode(updatedData);
+                  setNodes((nds) =>
+                    nds.map((node) => {
+                      if (node.id === updatedData.id) {
+                        const config = nodeConfigs[node.type || 'rect'];
+
+                        if (config?.onNodeUpdate) {
+                          const newNode = config.onNodeUpdate(node, updatedData);
+                          return newNode;
+                        } else {
+                          return node;
+                        }
+                      }
+                      return node;
+                    })
+                  );
+                }}
+                setSelectedNode={setSelectedNode}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+      {
+        showJsonPanel && (
+          <div className="fixed inset-x-0 bottom-0 z-50 flex justify-center pointer-events-none mt-1 pb-2">
+            <div className="pointer-events-auto animate-in slide-in-from-bottom duration-300">
+              <JsonPanel nodes={nodes} edges={edges} setShowJsonPanel={setShowJsonPanel} />
+            </div>
+          </div>
+        )
+      }
     </div>
   )
 }

@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useCallback, DragEvent, useState, useMemo } from 'react';
-import { ReactFlow, 
-    addEdge,
+import {
+    ReactFlow,
     Background,
     BackgroundVariant,
-    Connection,
     Controls,
     Edge,
     Node,
@@ -21,7 +20,6 @@ import '@xyflow/react/dist/style.css';
 import RectNode from '@/components/nodes/RectNode/RectNode';
 import CircleNode from '@/components/nodes/CircleNode/CircleNode';
 import ImageNode from '@/components/nodes/ImageNode/ImageNode';
-import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
     nodes: Node[];
@@ -33,14 +31,14 @@ interface Props {
     onAddNode: (type: string, position: { x: number; y: number }) => void;
 }
 
-const Canvas = ({ 
-    nodes, 
-    edges, 
-    onNodesChange, 
-    onEdgesChange, 
+const Canvas = ({
+    nodes,
+    edges,
+    onNodesChange,
+    onEdgesChange,
     onConnect,
     onNodeSelect,
-    onAddNode 
+    onAddNode
 }: Props) => {
     const nodeTypes = useMemo(() => ({
         rect: RectNode,
@@ -58,14 +56,11 @@ const Canvas = ({
     const onDrop = useCallback((event: DragEvent) => {
         event.preventDefault();
 
-        // 1. 确保 Key 一致
         const type = event.dataTransfer.getData('application/reactflow');
         console.log('type', type)
 
-        // 2. 健壮性检查
         if (!type || !reactFlowInstance) return;
 
-        // 3. 将鼠标位置转换为画布坐标
         const position = reactFlowInstance.screenToFlowPosition({
             x: event.clientX,
             y: event.clientY,
@@ -80,7 +75,7 @@ const Canvas = ({
 
     return (
         <ReactFlowProvider>
-            <div 
+            <div
                 className="w-full h-full bg-slate-50"
                 onDragOver={onDragOver}
                 onDrop={onDrop}
@@ -100,7 +95,7 @@ const Canvas = ({
                     elementsSelectable={true}
                 >
                     <Background variant={BackgroundVariant.Dots} color="#e5e5e5" gap={15} size={1} />
-                    <Controls />
+                    <Controls position="bottom-right" />
                 </ReactFlow>
             </div>
         </ReactFlowProvider>

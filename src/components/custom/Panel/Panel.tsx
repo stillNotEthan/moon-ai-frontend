@@ -20,6 +20,7 @@ interface Props {
     node: NodeData | null;
     onUpdate: (data: NodeData) => void;
     className?: string;
+    setSelectedNode: (node: NodeData | null) => void;
 }
 
 const formSchema = z.object({
@@ -40,6 +41,7 @@ const AttributesPanel = ({
     node,
     onUpdate,
     className,
+    setSelectedNode,
 }: Props) => {
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema) as unknown as Resolver<FormValues>,
@@ -91,14 +93,24 @@ const AttributesPanel = ({
     }
 
     return (
-        <div className={cn("w-72 border-l bg-white p-4 h-full overflow-y-auto shadow-sm", className)}>
-            <div className="mb-6">
-                <h2 className="text-lg font-semibold text-slate-800">属性面板</h2>
-                <p className="text-xs text-slate-500">实时编辑节点参数</p>
+        <div className="flex flex-col">
+            <div className="flex items-center justify-between px-6 py-4 border-b bg-slate-50">
+                <div>
+                    <h2 className="text-base font-semibold text-slate-800">属性面板</h2>
+                    <p className="text-xs text-slate-500 mt-0.5">实时编辑节点参数</p>
+                </div>
+                <button 
+                    onClick={() => setSelectedNode?.(null)}
+                    className="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-md transition-colors text-[14px]"
+                    aria-label="关闭"
+                >
+                    关闭
+                </button>
             </div>
 
-            <Form {...form}>
-                <form className="space-y-5">
+            <div className="overflow-y-auto px-6 py-5 max-h-[calc(100vh-10rem)]">
+                <Form {...form}>
+                    <form className="space-y-4">
                     <FormField
                         control={form.control}
                         name="id"
@@ -112,18 +124,32 @@ const AttributesPanel = ({
                         )}
                     />
 
-                    <FormField
-                        control={form.control}
-                        name="type"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-xs font-medium uppercase text-slate-500">类型</FormLabel>
-                                <FormControl>
-                                    <Input {...field} disabled className="bg-slate-50 text-slate-400" />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
+                    <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                            control={form.control}
+                            name="type"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">类型</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} disabled className="bg-slate-50 text-slate-400" />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="label"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">标签</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                    </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <FormField
@@ -244,6 +270,7 @@ const AttributesPanel = ({
                     )}
                 </form>
             </Form>
+            </div>
         </div>
     );
 };
