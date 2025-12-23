@@ -18,10 +18,10 @@ Demo中使用了React Flow库来实现流程图的绘制，通过组件化开发
 - Form: { id: string, type: string, label: string, x: number, y: number, width: number, height: number, color: string, imageUrl: string}
 
 ### 为什么要使用React Flow库？
-- React Flow 提供了丰富的节点类型，如 rect、circle、image 等，可以轻松实现流程图的绘制（一站式解决方案）
-- React Flow 也提供了丰富的连线类型，如 straight、bezier、smoothstep 等，可以轻松实现流程图的连线
-- React Flow 也提供了丰富的节点操作，如添加、删除、移动、复制等，可以轻松实现流程图的编辑
-- React Flow 也提供了丰富的节点属性，如节点的大小、位置、颜色等，可以轻松实现流程图的属性编辑
+- React Flow 提供了丰富的节点类型，如 rect、circle、image 等，可以轻松实现流程图的绘制（一站式解决方案）。
+- React Flow 也提供了丰富的连线类型，如 straight、bezier、smoothstep 等，可以轻松实现流程图的连线。
+- React Flow 也提供了丰富的节点操作，如添加、删除、移动、复制等，可以轻松实现流程图的编辑。
+- React Flow 也提供了丰富的节点属性，如节点的大小、位置、颜色等，可以轻松实现流程图的属性编辑。
 
 ### 核心逻辑
 - 属性面板：通过Shadcn/UI组件库提供的Input和Form组件来实现属性面板，通过React Hook Form来实现表单验证，通过Zod来实现类型检查。

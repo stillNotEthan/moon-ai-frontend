@@ -1,6 +1,11 @@
 'use client';
 
-import React, { useCallback, DragEvent, useState, useMemo } from 'react';
+import React, {
+    useCallback,
+    DragEvent,
+    useState,
+    useMemo
+} from 'react';
 import {
     ReactFlow,
     Background,
@@ -17,7 +22,6 @@ import {
     MiniMap
 } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-
 import RectNode from '@/components/nodes/RectNode/RectNode';
 import CircleNode from '@/components/nodes/CircleNode/CircleNode';
 import ImageNode from '@/components/nodes/ImageNode/ImageNode';
@@ -60,7 +64,6 @@ const Canvas = ({
         event.preventDefault();
 
         const type = event.dataTransfer.getData('application/reactflow');
-        console.log('type', type)
 
         if (!type || !reactFlowInstance) return;
 
