@@ -154,6 +154,10 @@ export default function Home() {
             });
           }}
           onAddNode={onAddNodeFromDrop}
+          onPaneClick={() => {
+            setSelectedNode(null);
+            setShowJsonPanel(false);
+          }}
         />
       </div>
       {selectedNode && (

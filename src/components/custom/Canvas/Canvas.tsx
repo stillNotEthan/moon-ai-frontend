@@ -29,6 +29,7 @@ interface Props {
     onConnect: OnConnect;
     onNodeSelect: (node: any) => void;
     onAddNode: (type: string, position: { x: number; y: number }) => void;
+    onPaneClick?: () => void;
 }
 
 const Canvas = ({
@@ -38,7 +39,8 @@ const Canvas = ({
     onEdgesChange,
     onConnect,
     onNodeSelect,
-    onAddNode
+    onAddNode,
+    onPaneClick
 }: Props) => {
     const nodeTypes = useMemo(() => ({
         rect: RectNode,
@@ -87,6 +89,7 @@ const Canvas = ({
                     onEdgesChange={onEdgesChange}
                     onConnect={onConnect}
                     onNodeClick={onNodeClick}
+                    onPaneClick={onPaneClick}
                     nodeTypes={nodeTypes as unknown as NodeTypes}
                     onInit={setReactFlowInstance}
                     fitView

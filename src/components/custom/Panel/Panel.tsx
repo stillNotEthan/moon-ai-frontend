@@ -97,9 +97,8 @@ const AttributesPanel = ({
             <div className="flex items-center justify-between px-6 py-4 border-b bg-slate-50">
                 <div>
                     <h2 className="text-base font-semibold text-slate-800">属性面板</h2>
-                    <p className="text-xs text-slate-500 mt-0.5">实时编辑节点参数</p>
                 </div>
-                <button 
+                <button
                     onClick={() => setSelectedNode?.(null)}
                     className="p-1.5 bg-slate-100 hover:bg-slate-200 rounded-md transition-colors text-[14px]"
                     aria-label="关闭"
@@ -111,165 +110,166 @@ const AttributesPanel = ({
             <div className="overflow-y-auto px-6 py-5 max-h-[calc(100vh-10rem)]">
                 <Form {...form}>
                     <form className="space-y-4">
-                    <FormField
-                        control={form.control}
-                        name="id"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel className="text-xs font-medium uppercase text-slate-500">节点 ID</FormLabel>
-                                <FormControl>
-                                    <Input {...field} disabled className="bg-slate-50 text-slate-400 border-dashed" />
-                                </FormControl>
-                            </FormItem>
-                        )}
-                    />
+                        <FormField
+                            control={form.control}
+                            name="id"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">节点 ID</FormLabel>
+                                    <FormControl>
+                                        <Input {...field} disabled className="bg-slate-50 text-slate-400 border-dashed" />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
 
-                    <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="type"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">类型</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} disabled className="bg-slate-50 text-slate-400" />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="label"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">标签</FormLabel>
-                                    <FormControl>
-                                        <Input {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="x"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">坐标 X</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" {...field} className="focus:ring-blue-500" />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="y"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">坐标 Y</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" {...field} className="focus:ring-blue-500" />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                            control={form.control}
-                            name="width"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">宽度</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="height"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">高度</FormLabel>
-                                    <FormControl>
-                                        <Input type="number" {...field} />
-                                    </FormControl>
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    {form.watch("type") !== "image" ? (
-                        <FormField
-                            control={form.control}
-                            name="color"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">填充颜色</FormLabel>
-                                    <div className="flex gap-2 items-center">
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="type"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs font-medium uppercase text-slate-500">类型</FormLabel>
                                         <FormControl>
-                                            <Input type="color" {...field} className="h-10 w-12 p-1 cursor-pointer" />
+                                            <Input {...field} disabled className="bg-slate-50 text-slate-400" />
                                         </FormControl>
-                                        <Input
-                                            value={field.value}
-                                            onChange={(e) => field.onChange(e.target.value)}
-                                            className="font-mono text-sm uppercase"
-                                        />
-                                    </div>
-                                </FormItem>
-                            )}
-                        />
-                    ) : (
-                        <FormField
-                            control={form.control}
-                            name="imageUrl"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className="text-xs font-medium uppercase text-slate-500">更换图片</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="file"
-                                            accept="image/*"
-                                            className="bg-slate-50 text-slate-500 cursor-pointer"
-                                            onChange={(e) => {
-                                                const file = e.target.files?.[0];
-                                                if (file) {
-                                                    const reader = new FileReader();
-                                                    reader.onload = (event) => {
-                                                        const result = event.target?.result as string;
-                                                        field.onChange(result);
-                                                    };
-                                                    reader.readAsDataURL(file);
-                                                }
-                                            }}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    )}
-
-                    {form.watch("type") === "image" && form.watch("imageUrl") && (
-                        <div className="space-y-2">
-                            <span className="text-xs font-medium uppercase text-slate-500">图片预览</span>
-                            <div className="border rounded-md p-1 bg-slate-50">
-                                <img
-                                    src={form.watch("imageUrl")}
-                                    className="max-h-32 w-full object-contain rounded"
-                                    alt="Preview"
-                                />
-                            </div>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="label"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs font-medium uppercase text-slate-500">标签</FormLabel>
+                                        <FormControl>
+                                            <Input {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
-                    )}
-                </form>
-            </Form>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="x"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs font-medium uppercase text-slate-500">坐标 X</FormLabel>
+                                        <FormControl>
+                                            <Input type="number" {...field} className="focus:ring-blue-500" />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="y"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs font-medium uppercase text-slate-500">坐标 Y</FormLabel>
+                                        <FormControl>
+                                            <Input type="number" {...field} className="focus:ring-blue-500" />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <FormField
+                                control={form.control}
+                                name="width"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs font-medium uppercase text-slate-500">宽度</FormLabel>
+                                        <FormControl>
+                                            <Input type="number" {...field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="height"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs font-medium uppercase text-slate-500">高度</FormLabel>
+                                        <FormControl>
+                                            <Input type="number" {...field} />
+                                        </FormControl>
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+
+                        {form.watch("type") !== "image" ? (
+                            <FormField
+                                control={form.control}
+                                name="color"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs font-medium uppercase text-slate-500">填充颜色</FormLabel>
+                                        <div className="flex gap-2 items-center">
+                                            <FormControl>
+                                                <Input type="color" {...field} className="h-10 w-12 p-1 cursor-pointer" />
+                                            </FormControl>
+                                            <Input
+                                                value={field.value}
+                                                onChange={(e) => field.onChange(e.target.value)}
+                                                className="font-mono text-sm uppercase"
+                                            />
+                                        </div>
+                                    </FormItem>
+                                )}
+                            />
+                        ) : (
+                            <FormField
+                                control={form.control}
+                                name="imageUrl"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-xs font-medium uppercase text-slate-500">更换图片</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type="file"
+                                                accept="image/*"
+                                                className="bg-slate-50 text-slate-500 cursor-pointer"
+                                                onChange={(e) => {
+                                                    const file = e.target.files?.[0];
+                                                    if (file) {
+                                                        const reader = new FileReader();
+                                                        reader.onload = (event) => {
+                                                            const result = event.target?.result as string;
+                                                            field.onChange(result);
+                                                        };
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                }}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        )}
+
+                        {form.watch("type") === "image" && form.watch("imageUrl") && (
+                            <div className="space-y-2">
+                                <span className="text-xs font-medium uppercase text-slate-500">图片预览</span>
+                                <div className="border rounded-md p-1 bg-slate-50">
+                                    <img
+                                        src={form.watch("imageUrl")}
+                                        className="max-h-32 w-full object-contain rounded"
+                                        alt="Preview"
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </form>
+                </Form>
             </div>
         </div>
     );

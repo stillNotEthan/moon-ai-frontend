@@ -8,7 +8,7 @@ import { CustomNode } from '../../custom/Canvas/types';
 const ImageNode = ({ data, selected }: NodeProps<CustomNode>) => {
     return (
         <div
-            className={`shadow-lg bg-white border-2 overflow-hidden ${selected ? 'border-blue-500' : 'border-gray-200'}`}
+            className={`flex flex-col items-center justify-center shadow-lg bg-white border-2 overflow-hidden ${selected ? 'border-blue-500' : 'border-gray-200'}`}
             style={{
                 width: data.width,
                 height: data.height,
@@ -26,7 +26,7 @@ const ImageNode = ({ data, selected }: NodeProps<CustomNode>) => {
                         className="w-full h-full object-contain"
                     />
                 ) : (
-                    <div className="p-4 text-xs text-gray-400">无图片展示</div>
+                    <div className="p-4 text-xs text-gray-400 text-center">无图片展示</div>
                 )
             }
             <Handle
