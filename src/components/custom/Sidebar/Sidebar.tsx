@@ -63,7 +63,6 @@ const NodeSidebar = ({ onAddNode, onExport, nodeCount }: NodeSidebarProps) => {
                             const reader = new FileReader();
                             reader.onload = (i) => onAddNode('image', i.target?.result as string);
                             reader.readAsDataURL(file);
-                            // Reset value so the same file can be selected again
                             e.target.value = '';
                         }
                     }}

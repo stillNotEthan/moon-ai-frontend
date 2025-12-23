@@ -62,11 +62,9 @@ const AttributesPanel = ({
         mode: "onChange",
     });
 
-    // 监听表单值变化，实时更新
     useEffect(() => {
         const subscription = form.watch((formData) => {
             if (node && formData) {
-                // 确保所有必需字段都有值
                 const updatedData = {
                     id: formData.id as string,
                     type: formData.type as string,
@@ -101,7 +99,6 @@ const AttributesPanel = ({
 
             <Form {...form}>
                 <form className="space-y-5">
-                    {/* 节点 ID - 只读 [cite: 42] */}
                     <FormField
                         control={form.control}
                         name="id"
@@ -115,7 +112,6 @@ const AttributesPanel = ({
                         )}
                     />
 
-                    {/* 类型 - 只读 [cite: 30] */}
                     <FormField
                         control={form.control}
                         name="type"
@@ -129,7 +125,6 @@ const AttributesPanel = ({
                         )}
                     />
 
-                    {/* 坐标控制 [cite: 31] */}
                     <div className="grid grid-cols-2 gap-4">
                         <FormField
                             control={form.control}
@@ -157,7 +152,6 @@ const AttributesPanel = ({
                         />
                     </div>
 
-                    {/* 尺寸控制 [cite: 32] */}
                     <div className="grid grid-cols-2 gap-4">
                         <FormField
                             control={form.control}
@@ -185,7 +179,6 @@ const AttributesPanel = ({
                         />
                     </div>
 
-                    {/* 颜色编辑 - 仅针对非图片节点  */}
                     {form.watch("type") !== "image" ? (
                         <FormField
                             control={form.control}
@@ -237,7 +230,6 @@ const AttributesPanel = ({
                         />
                     )}
 
-                    {/* 图片预览 [cite: 16] */}
                     {form.watch("type") === "image" && form.watch("imageUrl") && (
                         <div className="space-y-2">
                             <span className="text-xs font-medium uppercase text-slate-500">图片预览</span>
