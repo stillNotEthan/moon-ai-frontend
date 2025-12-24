@@ -5,7 +5,7 @@ Demo中使用了React Flow库来实现流程图的绘制，通过组件化开发
 
 ### 主要依赖: 
 - React Flow: 用于构建流程图
-- React Hook Form: 用于表单验证
+- React Hook Form: 用于追踪实时表单数据
 - Zod: 用于类型检查和表单验证
 - Shadcn UI: 用于构建 UI
 
