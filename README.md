@@ -32,7 +32,7 @@ slide-in-from-[right|bottom|left|top]和duration-[ms]来实现抽屉式的动画
 
 ## 启动
 
-### 我该如何启动项目?
+### 我该如何启动项目(bun/npm/pnpm)?
 - clone this repo
 - cd moon-ai-frontend
 - bun i

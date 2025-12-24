@@ -8,7 +8,7 @@ export const circleConfig: NodeConfig = {
         label: '圆形节点',
         width: 100,
         height: 100,
-        color: '#ffffff',
+        color: '#22c55e',
     },
     onNodeUpdate: (oldNode: Node, newData: NodeData) => {
         return {

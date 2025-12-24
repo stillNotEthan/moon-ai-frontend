@@ -8,7 +8,7 @@ export const rectConfig: NodeConfig = {
         label: '矩形节点',
         width: 100,
         height: 100,
-        color: '#ffffff',
+        color: '#0c7fda',
     },
     onNodeUpdate: (oldNode: Node, newData: NodeData) => {
         return {
